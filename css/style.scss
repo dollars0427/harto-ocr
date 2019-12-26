@@ -1,0 +1,24 @@
+html, body {
+    margin: 0;
+    height: 100%;
+}
+.container {
+    padding-top: 38px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.harto{
+  height: 100%;
+  .harto-dropzone{
+    text-align: center;
+    width: 50%;
+    margin-top: 1em;
+    .dropzone{
+      margin-top: 1em;
+    }
+  }
+}
