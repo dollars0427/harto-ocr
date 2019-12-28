@@ -1,3 +1,2 @@
 vision_endpoint = Your Azure Vision Endpoint
 vision_key = Your Azure Vision Key
-file_path = './files'
