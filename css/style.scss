@@ -8,17 +8,22 @@ html, body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
 }
 
 .harto{
   height: 100%;
-  .harto-dropzone{
+  .dropzone-wrapper{
     text-align: center;
-    width: 50%;
+    width: 80%;
     margin-top: 1em;
     .dropzone{
       margin-top: 1em;
     }
+    .btn-upload{
+      margin-top: 1em;
+    }
+  }
+  .result-label{
+    margin-top: 2em;
   }
 }
