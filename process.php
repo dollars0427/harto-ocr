@@ -1,5 +1,5 @@
 <?php
-ini_set('display_errors', 1);
+header('Content-Type: application/json');
 require('./vendor/autoload.php');
 $config = parse_ini_file('./config.ini');
 
@@ -16,14 +16,20 @@ $fileupload->setFileSystem($filesystem);
 $fileupload->addValidator($validator);
 list($files, $headers) = $fileupload->processAll();
 
+$ocr_result = [];
 foreach($files as $file){
     if ($file->completed) {
       $file_name = $file->getFilename();
       $file_url = create_image_url($file_name);
       $result = call_azure_api($file_url, $config);
-      print $result;
+      $text_json = json_decode($result, TRUE);
+      $text = create_full_text($text_json);
+      $ocr_result[] = ['text' => $text];
+      unlink('./files/' . $file_name);
     }
 }
+
+print json_encode($ocr_result, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 
 function create_image_url($file_name){
   $header = 'http://';
@@ -35,6 +41,7 @@ function create_image_url($file_name){
   return $image_url;
 }
 
+//Call Azure vision ocr API, pass key and url.
 function call_azure_api($file_url, $config){
   $azure_api_endpoint = $config['vision_endpoint'];
   $azure_api_key = $config['vision_key'];
@@ -55,4 +62,25 @@ function call_azure_api($file_url, $config){
   $result = curl_exec($curl);
   curl_close($curl);
   return $result;
+}
+
+function create_full_text($text_json){
+  $full_text = '';
+  $lines = $text_json['regions'][0]['lines'];
+  $lines_text = [];
+  //Create text array by line.
+  foreach($lines as $index => $line){
+    $lines_text[$index] = [];
+    $words = $line['words'];
+    foreach($words as $word){
+      $text = $word['text'];
+      $lines_text[$index][] = $text;
+    }
+  }
+  //Contact text array to full text.
+  foreach($lines_text as $line){
+    $line_text = implode('', $line);
+    $full_text = $full_text . $line_text;
+  }
+  return $full_text;
 }

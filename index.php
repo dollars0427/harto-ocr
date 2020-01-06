@@ -21,11 +21,11 @@
       <div class="dropzone-wrapper">
         <div id="hartoDropzone" class="dropzone"></div>
         <button class="btn btn-primary btn-upload">
-          Upload and Process
+          上傳並處理
         </button>
       </div>
       <div class="result-wrapper">
-        <p class="result-label">Result:</p>
+        <p class="result-label">結果:</p>
       </div>
     </div>
   </div>
@@ -45,11 +45,20 @@
     autoProcessQueue: false,
     parallelUploads: 1000,
     uploadMultiple: true,
-    successmultiple: function(file, response){
+    successmultiple: function(files, response){
       hartoDropzone.removeAllFiles();
       const dropzoneText = document.querySelector('.dz-message span');
       dropzoneText.textContent = '上載完成！如要繼續，請再次將檔案拖至此或點擊上傳';
-      console.log(response);
+      const images = response;
+      for(let i = 0; i < images.length; i++){
+        const imageFile = files[i];
+        const imageText = images[i].text;
+        const result = `<div class="result">
+        <div class="result-id">圖像${i + 1}：</div>
+        <textarea rows="4" cols="50">${imageText}</textarea>
+        </div>`;
+        $('.result-wrapper').append(result);
+      }
     }
   });
   $('.btn-upload').click(function(e){
