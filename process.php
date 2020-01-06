@@ -6,7 +6,7 @@ $config = parse_ini_file('./config.ini');
 if (!file_exists('./files')) {
     mkdir('./files', 0777, true);
 }
-$validator = new FileUpload\Validator\Simple('10M', ['image/png', 'image/jpg', 'image/gif']);
+$validator = new FileUpload\Validator\Simple('10M', ['image/png', 'image/jpg', 'image/jpeg', 'image/gif']);
 $pathresolver = new FileUpload\PathResolver\Simple('./files');
 $filesystem = new FileUpload\FileSystem\Simple();
 $fileupload = new FileUpload\FileUpload($_FILES['file'], $_SERVER);
