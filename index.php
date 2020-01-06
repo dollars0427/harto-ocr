@@ -47,6 +47,7 @@
     uploadMultiple: true,
     successmultiple: function(files, response){
       hartoDropzone.removeAllFiles();
+      $('.result').remove();
       const dropzoneText = document.querySelector('.dz-message span');
       dropzoneText.textContent = '上載完成！如要繼續，請再次將檔案拖至此或點擊上傳';
       const images = response;
