@@ -10,8 +10,10 @@ composer install
 ```
 
 2. 複製config.ini.simple，並改名為config.ini：
+```
 cp config.ini.sample config.ini
 vi config.ini
+```
 
 3. 申請Azure Vision API，再將Endpoint和API Key輸入至config.ini
 ```
